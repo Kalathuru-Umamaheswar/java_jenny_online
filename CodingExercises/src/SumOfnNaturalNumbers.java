@@ -6,7 +6,7 @@ public class SumOfnNaturalNumbers {
         System.out.println("Enter a Number :");
         int num = sc.nextInt();
         int sum=0;
-        if(num<=0){
+        if(num<=0){ //Natural numbers starts from one
             System.out.println("Invalid Number");
         }
         else{

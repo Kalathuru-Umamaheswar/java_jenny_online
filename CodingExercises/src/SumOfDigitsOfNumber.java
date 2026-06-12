@@ -6,9 +6,14 @@ public class SumOfDigitsOfNumber {
         System.out.println("Enter Number :");
         int num = sc.nextInt();
         int sumOfDigits = 0;
-        for(;num != 0;num /= 10){
+        /*for(;num != 0;num /= 10){
             int remainder = num % 10;
             sumOfDigits += remainder;
+        }*/
+        while(num!=0){
+            int remainder=num%10;
+            sumOfDigits+=remainder;
+            num=num/10;
         }
         System.out.println(sumOfDigits);
     }

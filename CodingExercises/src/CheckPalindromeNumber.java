@@ -7,9 +7,14 @@ public class CheckPalindromeNumber {
         int num = sc.nextInt();
         int OriginalNumber = num;
         int reversedNumber =0;
-        for(;num != 0;num /= 10){
+        /*for(;num != 0;num /= 10){
             int remainder = num % 10;
             reversedNumber = reversedNumber * 10 + remainder;
+        }*/
+        while(num!=0){
+            int remainder=num%10;
+            reversedNumber=reversedNumber*10+remainder;
+            num=num/10;
         }
         if(OriginalNumber == reversedNumber){
             System.out.println("Palindrome");

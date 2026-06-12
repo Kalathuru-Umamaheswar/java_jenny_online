@@ -67,11 +67,6 @@ public class BankAccount {
 
 
 
-
-
-
-
-
     /*
     private String accountNumber;
     private String accountName;
@@ -101,7 +96,7 @@ public class BankAccount {
         }
     }
     public void displaydetails(){
-        System.out.println("Acccount holder name :"+this.accountName);
+        System.out.println("Account holder name :"+this.accountName);
         System.out.println("Account Number :"+this.accountNumber);
         System.out.println("Current Balance :"+this.balance);
         System.out.println("Phone No :"+this.phoneNo);
