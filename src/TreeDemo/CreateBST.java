@@ -7,7 +7,7 @@ public class CreateBST {
     CreateBST(){
         root=null;
     }
-    //insert using recursion
+    //insert us ing recursion
     Node insert(Node node,int val){
         if(node==null){
             node=new Node(val);
@@ -207,4 +207,4 @@ public class CreateBST {
 //        System.out.println("Tree after deleting "+key);
 //        tree.displayTree(tree.root,key);
     }
-}
+}.
