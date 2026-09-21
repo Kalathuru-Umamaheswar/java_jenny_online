@@ -11,19 +11,7 @@ public class ExceptionAndErrors {
        catch (NullPointerException iob){
            System.out.println(iob);
        }
-
-
-
-
-
-
-
-
-
-
-
-
-
+//try block contains the code that may throw an exception and catch block handles that exception
        /* String str=null;
         try {
             System.out.println(str.length());
@@ -31,6 +19,7 @@ public class ExceptionAndErrors {
         catch(NullPointerException e){
             System.out.println(e);
         } */
+
         /*try {
             System.out.println("Enter first number :");
             int num1 = sc.nextInt();
@@ -38,9 +27,8 @@ public class ExceptionAndErrors {
             int num2 = sc.nextInt();
             int result = num1 / num2;
             System.out.println("Result :" + result);
-
         }
-        catch(ArithmeticException ae){
+        catch(ArithmeticException ae){ //here ae defines the exception name
             System.out.println("Num2 cannot be negative"+ae);
         } */
         //System.out.println("Out from main");

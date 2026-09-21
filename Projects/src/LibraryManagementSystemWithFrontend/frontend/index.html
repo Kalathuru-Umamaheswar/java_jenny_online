@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jenny's Library &mdash; Library Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="drawer-rail"></div>
+
+<header class="site-head">
+  <div class="head-inner">
+    <div class="mark">
+      <span class="mark-glyph">&sect;</span>
+      <div class="mark-text">
+        <h1>Jenny's Library</h1>
+        <p class="tagline">Catalog &amp; Circulation Desk</p>
+      </div>
+    </div>
+    <div class="db-status" id="dbStatus">
+      <span class="dot" id="dbDot"></span>
+      <span id="dbStatusText">Booting SQLite engine&hellip;</span>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="catalog">Catalog</button>
+    <button class="tab" data-tab="circulation">Circulation Desk</button>
+    <button class="tab" data-tab="people">Members</button>
+    <button class="tab" data-tab="ledger">Loan Ledger</button>
+    <button class="tab" data-tab="schema">SQL Schema</button>
+  </nav>
+</header>
+
+<main class="content">
+
+  <!-- ============ CATALOG ============ -->
+  <section class="panel active" id="panel-catalog">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">01 &mdash; The Stacks</p>
+        <h2>Catalog</h2>
+      </div>
+      <input type="search" id="catalogSearch" placeholder="Search title, author, or call number&hellip;" class="search-box">
+    </div>
+
+    <div class="add-item-card">
+      <div class="add-item-tabs">
+        <button class="mini-tab active" data-add="book">+ Add Book</button>
+        <button class="mini-tab" data-add="magazine">+ Add Magazine</button>
+      </div>
+
+      <form id="addBookForm" class="inline-form">
+        <input required name="itemId" placeholder="Call number (e.g. Java002)" class="mono-input">
+        <input required name="title" placeholder="Title">
+        <input required name="authorName" placeholder="Author name">
+        <input name="authorBio" placeholder="Author bio (optional)">
+        <input name="authorBooks" type="number" min="0" placeholder="Books published" value="1">
+        <button type="submit" class="btn-primary">Shelve it</button>
+      </form>
+
+      <form id="addMagazineForm" class="inline-form hidden">
+        <input required name="itemId" placeholder="Call number (e.g. Mag001)" class="mono-input">
+        <input required name="title" placeholder="Title">
+        <input required name="issueNumber" type="number" min="1" placeholder="Issue #">
+        <button type="submit" class="btn-primary">Shelve it</button>
+      </form>
+    </div>
+
+    <div class="card-grid" id="catalogGrid"></div>
+  </section>
+
+  <!-- ============ CIRCULATION ============ -->
+  <section class="panel" id="panel-circulation">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">02 &mdash; The Desk</p>
+        <h2>Circulation Desk</h2>
+      </div>
+    </div>
+    <p class="rule-note">Rules enforced same as <code>User.java</code> / <code>Student.java</code>: each member may hold only <strong>one</strong> item at a time, and students may only borrow <strong>books</strong>, never magazines.</p>
+
+    <div class="desk-grid">
+      <form id="borrowForm" class="desk-card">
+        <h3>Borrow</h3>
+        <label>Member</label>
+        <select name="userId" required id="borrowUserSelect"></select>
+        <label>Item</label>
+        <select name="itemId" required id="borrowItemSelect"></select>
+        <button type="submit" class="btn-primary">Stamp out</button>
+        <p class="form-msg" id="borrowMsg"></p>
+      </form>
+
+      <form id="returnForm" class="desk-card">
+        <h3>Return</h3>
+        <label>Member</label>
+        <select name="userId" required id="returnUserSelect"></select>
+        <button type="submit" class="btn-secondary">Stamp in</button>
+        <p class="form-msg" id="returnMsg"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ PEOPLE ============ -->
+  <section class="panel" id="panel-people">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">03 &mdash; Cardholders</p>
+        <h2>Members</h2>
+      </div>
+    </div>
+
+    <form id="addUserForm" class="inline-form">
+      <input required name="userId" placeholder="Member ID" class="mono-input">
+      <input required name="name" placeholder="Full name">
+      <select name="userType" required>
+        <option value="STUDENT">Student</option>
+        <option value="PROFESSOR">Professor</option>
+      </select>
+      <button type="submit" class="btn-primary">Issue card</button>
+    </form>
+
+    <div class="table-wrap">
+      <table id="peopleTable">
+        <thead><tr><th>Card No.</th><th>Name</th><th>Type</th><th>Currently holding</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ LEDGER ============ -->
+  <section class="panel" id="panel-ledger">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">04 &mdash; The Record</p>
+        <h2>Loan Ledger</h2>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="ledgerTable">
+        <thead><tr><th>#</th><th>Member</th><th>Item</th><th>Borrowed</th><th>Returned</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ SCHEMA ============ -->
+  <section class="panel" id="panel-schema">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">05 &mdash; Behind the Card Catalog</p>
+        <h2>SQL Schema</h2>
+      </div>
+    </div>
+    <p class="rule-note">This is the production schema (<code>sql/schema.sql</code>), written for MySQL. The live demo on this page runs an equivalent schema in SQLite entirely inside your browser via <a href="https://sql.js.org/" target="_blank" rel="noopener">sql.js</a>, so it works with no server and no install &mdash; handy for a GitHub Pages demo.</p>
+    <pre id="schemaBox" class="schema-box">Loading schema.sql&hellip;</pre>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>Front end + in-browser SQLite demo built to sit alongside the original Java console app in <code>src/com/jennyslectures</code>. No existing Java files were modified.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
